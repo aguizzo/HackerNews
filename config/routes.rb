@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  resources :submissions
+  resources :submissions do
+    member do
+      put 'upVotes'
+    end
+  end
     get '/submit', to: 'submissions#new', as: 'submit'
+
   resources :users
     get '/login', to: 'users#new', as: 'login'
 
