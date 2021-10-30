@@ -13,7 +13,8 @@
   </thead>
 
   <tbody>
-    <% @submissions.each do |submission| %>
+    <% @submissions.sort_by{|s| s.upVotes}.reverse.each do |submission| %>
+   
       <tr>
         <td><%= submission.title %></td>
         <td><%= submission.url %></td>
