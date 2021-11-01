@@ -1,9 +1,9 @@
 class SubmissionsController < ApplicationController
-  before_action :set_submission, only: %i[ show edit update destroy ]
+  before_action :set_submission, only:[:show, :edit, :update, :destroy, :upVotes]
 
   # GET /submissions or /submissions.json
   def index
-    @submissions = Submission.all
+    @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
   end
 
   # GET /submissions/1 or /submissions/1.json
@@ -14,6 +14,8 @@ class SubmissionsController < ApplicationController
   def new
     @submission = Submission.new
   end
+
+ 
 
   # GET /submissions/1/edit
   def edit
@@ -31,6 +33,15 @@ class SubmissionsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @submission.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def upVotes
+    @submission.upVotes = @submission.upVotes + 1
+    @submission.save
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: 'Submission was successfully up-voted.' }
+      format.json { head :no_content }
     end
   end
 
