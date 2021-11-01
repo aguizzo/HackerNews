@@ -6,6 +6,10 @@ class SubmissionsController < ApplicationController
     @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
   end
 
+  def newest
+    @submissions = Submission.all.order('created_at DESC')
+  end
+
   # GET /submissions/1 or /submissions/1.json
   def show
   end
