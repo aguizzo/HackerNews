@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Submission Asks</h1>
+
+
+  
+  <tbody>
+    <tr>
+      <td>
+        <% i = 1 %>
+        <% @submission_ask.each do |item| %>
+        
+         
+            <table>
+              <tbody>
+                <tr>
+                  <td><%= i %>.</td>
+                  <td>
+                  <%=link_to image_tag('/assets/arrowgray.png'), updatepunts_submission_ask_path(item), method: :put %>
+                  </td>
+                  <td>
+                    <font color="black" size="3">
+                    <a> <%= item.tittle%>  </a>
+                    </font> </font> <font color="grey" size="2"></font>
+                  </td>
+                </tr>
+            </table> 
+            <table>
+              <tr>
+                  <td>
+                    <font color="grey" size="2">
+                      <%= item.punts %> points by <a> USER</a>
+                      <% time = (Time.now() - item.created_at) %>
+                      <% if time < 3600 %>
+                          <a style="text-decoration:none;" ><%= (time/60).round %> minutes ago</a> | 
+                      <% end %>
+                      <% if time >= 3600 && time < 3600*24 %>
+                          <a style="text-decoration:none;"><%= (time/3600).round %> hours ago</a> | 
+                      <% end %>       
+                      <% if time >= 3600*24 %>
+                          <a style="text-decoration:none;"><%= (time/(3600*24)).round %> days ago</a> | 
+                      <% end %>
+                    </font>
+                  </td>
+              </tr>
+              <% i += 1 %>
+              
+              <% end %>
+            </tbody>
+          </table>  
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+
+
+<br>
+
+<%= link_to 'New Submission Ask', new_submission_ask_path %>
