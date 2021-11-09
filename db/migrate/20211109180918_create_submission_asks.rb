@@ -4,6 +4,7 @@ class CreateSubmissionAsks < ActiveRecord::Migration[6.1]
       t.string :tittle
       t.text :content
       t.integer :punts
+      
 
       t.timestamps
     end

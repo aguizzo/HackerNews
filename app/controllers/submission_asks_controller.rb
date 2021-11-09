@@ -1,25 +1,35 @@
 class SubmissionAsksController < ApplicationController
-  before_action :set_submission_ask, only: %i[ show edit update destroy ]
+  before_action :set_submission_ask, only:[:show, :edit, :update, :destroy, :updatepunts]
 
-  # GET /submission_asks or /submission_asks.json
+  # GET /submission_ask or /submission_ask.json
   def index
-    @submission_asks = SubmissionAsk.all
+    @submission_ask = SubmissionAsk.all
   end
 
-  # GET /submission_asks/1 or /submission_asks/1.json
+  # GET /submission_ask/1 or /submission_ask/1.json
   def show
   end
 
-  # GET /submission_asks/new
+  # PUT 
+  def updatepunts
+    @submission_ask.punts = @submission_ask.punts + 1
+    @submission_ask.save
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: 'SubmissionAsk was successfully up-voted.' }
+      format.json { head :no_content }
+    end
+  end
+
+  # GET /submission_ask/new
   def new
     @submission_ask = SubmissionAsk.new
   end
 
-  # GET /submission_asks/1/edit
+  # GET /submission_ask/1/edit
   def edit
   end
 
-  # POST /submission_asks or /submission_asks.json
+  # POST /submission_ask or /submission_ask.json
   def create
     @submission_ask = SubmissionAsk.new(submission_ask_params)
 
@@ -34,7 +44,7 @@ class SubmissionAsksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /submission_asks/1 or /submission_asks/1.json
+  # PATCH/PUT /submission_ask/1 or /submission_ask/1.json
   def update
     respond_to do |format|
       if @submission_ask.update(submission_ask_params)
@@ -47,11 +57,11 @@ class SubmissionAsksController < ApplicationController
     end
   end
 
-  # DELETE /submission_asks/1 or /submission_asks/1.json
+  # DELETE /submission_ask/1 or /submission_ask/1.json
   def destroy
     @submission_ask.destroy
     respond_to do |format|
-      format.html { redirect_to submission_asks_url, notice: "Submission ask was successfully destroyed." }
+      format.html { redirect_to submission_ask_url, notice: "Submission ask was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -66,4 +76,6 @@ class SubmissionAsksController < ApplicationController
     def submission_ask_params
       params.require(:submission_ask).permit(:tittle, :content, :punts)
     end
+
+  
 end
