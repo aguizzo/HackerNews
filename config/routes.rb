@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :submission_asks
   resources :submissions do
     member do
       put 'upVotes'
