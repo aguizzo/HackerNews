@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
     
   end
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
   get '/submit', to: 'submissions#new', as: 'submit'
   get "/news", to:'submissions#index', as: 'news'
   get '/newest', to: 'submissions#newest'
