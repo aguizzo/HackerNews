@@ -27,7 +27,7 @@
                 <td>
                   <font color="grey" size="2">
                     <%= submission.upVotes %> points by <a>
-                    USER</a>
+                    <%= submission.user.username %> </a>
                     <% time = (Time.now() - submission.created_at) %>
                     <% if time < 3600 %>
                         <a style="text-decoration:none;" ><%= (time/60).round %> minutes ago</a> | 

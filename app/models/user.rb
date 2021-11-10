@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    has_many :submissions
     has_secure_password
     
     def self.create_from_omniauth(auth)
