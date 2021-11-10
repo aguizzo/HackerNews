@@ -27,7 +27,8 @@
                 <td>
                   <font color="grey" size="2">
                     <%= submission.upVotes %> points by <a>
-                    <%= submission.user.username %> </a>
+                    <%= link_to submission.user.username, "/users/#{submission.user.id}", id: "my_profile" %>
+                    
                     <% time = (Time.now() - submission.created_at) %>
                     <% if time < 3600 %>
                         <a style="text-decoration:none;" ><%= (time/60).round %> minutes ago</a> | 
