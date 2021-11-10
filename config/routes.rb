@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/submit', to: 'submissions#new', as: 'submit'
   get "/news", to:'submissions#index', as: 'news'
   get '/newest', to: 'submissions#newest'
+  get '/signout', to: 'sessions#destroy', as: 'signout'
   
   root 'submissions#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

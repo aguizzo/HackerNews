@@ -4,6 +4,13 @@
   <li><a href="#threads">threads</a></li>
   <li><%= link_to 'ask', submission_asks_path%></li>
   <li><%= link_to 'submit', submit_path%></li>
-  <li style="float:right"><a href="#login">login</a></li>
+  <% if logged_in? %>
+    <li style="float:right"> <%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+  <li style="float:right"> <%= current_user.username %></li> 
+  <% else %>
+  
+  <li style="float:right"><%= button_to "Login", '/auth/google_oauth2'%> </li>
+  <%end%>
+  
 </ul>
   
