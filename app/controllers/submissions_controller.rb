@@ -27,8 +27,10 @@ class SubmissionsController < ApplicationController
 
   # POST /submissions or /submissions.json
   def create
+    
     @submission = Submission.new(submission_params)
-
+    @submission.user = current_user
+    
     respond_to do |format|
       if @submission.save
         format.html { redirect_to @submission, notice: "Submission was successfully created." }
@@ -38,6 +40,7 @@ class SubmissionsController < ApplicationController
         format.json { render json: @submission.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   def upVotes
