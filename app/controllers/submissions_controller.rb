@@ -23,6 +23,15 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new
   end
 
+  def usersubmissions
+      @user = User.find(params[:user])
+      @submissions = Submission.where("user_id=?", params[:user]).order("created_at DESC")
+  end
+
+  def userasks
+    @user = User.find(params[:user])
+    @submissions = Submission.where("user_id=?", params[:user]).order("created_at DESC")
+  end
  
 
   # GET /submissions/1/edit

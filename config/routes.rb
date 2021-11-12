@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "/news", to:'submissions#index', as: 'news'
   get '/newest', to: 'submissions#newest'
   get '/ask', to: 'submissions#ask'
+  get 'user_submissions', to:'submissions#usersubmissions'
+  get 'user_asks', to:'submissions#userasks'
   get '/signout', to: 'sessions#destroy', as: 'signout'
   
   root 'submissions#index'
