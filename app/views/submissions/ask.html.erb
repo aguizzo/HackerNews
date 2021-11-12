@@ -6,7 +6,7 @@
       <td>
         <% i = 1 %>
         <% @submissions.each do |submission| %>
-          <% if submission.url != ""%>
+          <% if submission.url == ""%>
           <table>
             <tbody>
               <tr>
@@ -18,7 +18,7 @@
                   <font color="black" size="3">
                   <a style="text-decoration:none;" href=<%= submission.url %>><%= submission.title%>
                   </a>
-                  </font> </font> <font color="grey" size="2">(<%= submission.url %>)</font>
+                  </font> </font>
                 </td>
               </tr>
           </table> 
@@ -26,7 +26,7 @@
             <tr>
                 <td>
                   <font color="grey" size="2">
-                    <%= submission.upVotes %> points by <a>
+                    <%= submission.upVotes %> points by 
                     <%= link_to submission.user.username, "/users/#{submission.user.id}", id: "my_profile" %>
                     <a style="text-decoration:none;"><%= time_ago_in_words(submission.created_at) %> ago </a> |
                     <% if current_user && current_user.id == submission.user.id %>

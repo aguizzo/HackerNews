@@ -26,18 +26,12 @@
             <tr>
                 <td>
                   <font color="grey" size="2">
-                    <%= submission.upVotes %> points by <a>
-                    <%= link_to submission.user.username, "/users/#{submission.user.id}", id: "my_profile" %>
-                    
-                    <% time = (Time.now() - submission.created_at) %>
-                    <% if time < 3600 %>
-                        <a style="text-decoration:none;" ><%= (time/60).round %> minutes ago</a> | 
-                    <% end %>
-                    <% if time >= 3600 && time < 3600*24 %>
-                        <a style="text-decoration:none;"><%= (time/3600).round %> hours ago</a> | 
-                    <% end %>       
-                    <% if time >= 3600*24 %>
-                        <a style="text-decoration:none;"><%= (time/(3600*24)).round %> days ago</a> | 
+                    <%= submission.upVotes %> points by 
+                    <%= link_to submission.user.username, "/users/#{submission.user.id}", id: "my_profile" %>       
+                    <a style="text-decoration:none;"><%= time_ago_in_words(submission.created_at) %> ago </a> |
+                    <% if current_user && current_user.id == submission.user.id %>
+                      <a style="text-decoration:none;"> <%= link_to 'edit', edit_submission_path(submission) %></a> |
+                      <a style="text-decoration:none;"> <%= link_to 'delete', submission, method: :delete %></a> 
                     <% end %>
                   </font>
                 </td>
