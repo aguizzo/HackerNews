@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  resources :submission_asks do
-    member do
-      put 'updatepunts'
-    end
-  end
   resources :submissions do
     member do
       put 'upVotes'
@@ -15,6 +10,7 @@ Rails.application.routes.draw do
   get '/submit', to: 'submissions#new', as: 'submit'
   get "/news", to:'submissions#index', as: 'news'
   get '/newest', to: 'submissions#newest'
+  get '/ask', to: 'submissions#ask'
   get '/signout', to: 'sessions#destroy', as: 'signout'
   
   root 'submissions#index'

@@ -12,14 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_11_10_183005) do
 
-  create_table "submission_asks", force: :cascade do |t|
-    t.string "tittle"
-    t.text "content"
-    t.integer "punts"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "submissions", force: :cascade do |t|
     t.string "title"
     t.string "url"
