@@ -5,7 +5,14 @@ Rails.application.routes.draw do
     end
     
   end
+
+  resources :submissions, except: :index do
+    resources :comments, only: [:create, :edit, :update, :destroy]
+    post :upvote, on: :member
+  end
+
   resources :users
+
   get '/auth/:provider/callback', to: 'sessions#omniauth'
   get '/submit', to: 'submissions#new', as: 'submit'
   get "/news", to:'submissions#index', as: 'news'

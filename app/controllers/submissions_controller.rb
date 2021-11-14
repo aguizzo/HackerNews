@@ -1,13 +1,15 @@
 class SubmissionsController < ApplicationController
-  before_action :set_submission, only:[:show, :edit, :update, :destroy, :upVotes]
+  before_action :set_submission, only:[:show, :edit, :update, :destroy, :upVotes, :upvote]
 
   # GET /submissions or /submissions.json
   def index
-    @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
+    @submissions = Submission.all
+  #  @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
   end
 
   def ask
-    @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
+    @submissions = Submission.all
+  #  @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
   end
 
   def newest
@@ -56,13 +58,16 @@ class SubmissionsController < ApplicationController
 
   end
 
-  def upVotes
-    @submission.upVotes = @submission.upVotes + 1
-    @submission.save
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Submission was successfully up-voted.' }
-      format.json { head :no_content }
+  def upvote
+    submission = Submission.find_by(id: params[:id])
+  
+    if current_user.upvoted?(submission)
+      current_user.remove_vote(submission)
+    else
+      current_user.upvote(submission)
     end
+  
+    redirect_to root_path
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
