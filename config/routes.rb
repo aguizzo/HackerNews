@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/ask', to: 'submissions#ask'
   get 'user_submissions', to:'submissions#usersubmissions'
   get 'user_asks', to:'submissions#userasks'
+  get 'user_voted', to:'submissions#uservoted'
   get '/signout', to: 'sessions#destroy', as: 'signout'
   
   root 'submissions#index'

@@ -35,6 +35,11 @@ class SubmissionsController < ApplicationController
     @submissions = Submission.where("user_id=?", params[:user]).order("created_at DESC")
   end
  
+  def uservoted
+    @user = User.find(params[:user])
+    @votes = Vote.where("user_id=?", params[:user])
+    @submissions = Submission.where(current_user.upvoted?)
+  end
 
   # GET /submissions/1/edit
   def edit
@@ -46,13 +51,21 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new(submission_params)
     @submission.user = current_user
     
-    respond_to do |format|
-      if @submission.save
-        format.html { redirect_to @submission, notice: "Submission was successfully created." }
-        format.json { render :show, status: :created, location: @submission }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
+    #pendent d'acabar
+    submission = Submission.where(url: submission_params[:url])
+    if submission.exists?
+      s = Submission.where(url: submission_params[:url]).select(:id)
+      s.to_s
+      redirect_to submission_path
+    else
+      respond_to do |format|
+        if @submission.save
+          format.html { redirect_to @submission, notice: "Submission was successfully created." }
+          format.json { render :show, status: :created, location: @submission }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @submission.errors, status: :unprocessable_entity }
+        end
       end
     end
 
