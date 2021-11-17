@@ -1,5 +1,14 @@
 # README
 
+
+Our users:
+
+Felipe Arango: @pipeac
+Andres Guiizzo: @aguizzo
+Adria Garcia: @adriagarcia7
+Joan Mateu: @joanmateuupc
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
