@@ -1,7 +1,9 @@
 class User < ApplicationRecord
     has_many :submissions
     has_many :votes
+    has_many :comments
     has_secure_password
+   
     
     def self.create_from_omniauth(auth)
         User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|

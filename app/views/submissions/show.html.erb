@@ -14,6 +14,12 @@
   <strong>Text:</strong>
   <%= @submission.text %>
 </p>
+<p>
+  <strong>Comments:</strong>
+  
+  <%= render @submission.comments.where(parent_id: nil) %>
+  <%= render partial: 'comments/form' , locals: {submission: @submission, parent: nil} %>
+</p>
 
 <% if current_user && current_user.id == @submission.user.id %>
 <a style="text-decoration:none;"> <%= link_to 'edit', edit_submission_path(@submission) %></a> |

@@ -18,6 +18,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1 or /submissions/1.json
   def show
+    
   end
 
   # GET /submissions/new
