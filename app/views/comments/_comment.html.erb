@@ -1,5 +1,10 @@
 <article>
     <p> <%= comment.content %> </p>
+    <% if logged_in? %>
+        <span class="upvotec-comment">
+            <%= link_to "upvotec (#{comment.upvotecs})", upvotec_comment_path(comment), method: :post %>
+        </span>
+    <% end %>
     <small> by <%= comment.user.email %> </small>
     <a href="#" class= "comment-form-display"> reply</a>
     <div class="comment-form">

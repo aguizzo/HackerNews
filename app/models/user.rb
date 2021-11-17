@@ -2,6 +2,7 @@ class User < ApplicationRecord
     has_many :submissions
     has_many :votes
     has_many :comments
+    has_many :votecs
     has_secure_password
    
     
@@ -23,5 +24,17 @@ class User < ApplicationRecord
       
     def remove_vote(submission)
         votes.find_by(submission: submission).destroy
+    end
+
+    def upvotec(comment)
+        votecs.create(upvotec: 1, comment: comment)
+    end
+
+    def upvotecd?(comment)
+        votecs.exists?(upvotec: 1, comment: comment)
+    end
+      
+    def remove_votec(comment)
+        votecs.find_by(comment: comment).destroy
     end
 end

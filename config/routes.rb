@@ -11,6 +11,11 @@ Rails.application.routes.draw do
     post :upvote, on: :member
   end
 
+  resources :comments, except: :index do
+    resources :comments, only: [:create, :edit, :update, :destroy]
+    post :upvotec, on: :member
+  end
+
   resources :users
 
   get '/auth/:provider/callback', to: 'sessions#omniauth'
