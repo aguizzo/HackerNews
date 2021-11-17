@@ -53,11 +53,9 @@ class SubmissionsController < ApplicationController
     @submission.user = current_user
     
     #pendent d'acabar
-    submission = Submission.where(url: submission_params[:url])
-    if submission.exists?
-      s = Submission.where(url: submission_params[:url]).select(:id)
-      s.to_s
-      redirect_to submission_path
+    @submission2 = Submission.where(url: submission_params[:url])
+    if @submission2.exists?
+      redirect_to submission_path(@submission2.first)
     else
       respond_to do |format|
         if @submission.save
