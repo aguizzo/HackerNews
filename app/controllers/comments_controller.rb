@@ -18,7 +18,8 @@ class CommentsController < ApplicationController
           current_user.upvotec(comment)
         end
       
-        redirect_to root_path
+        @s = Submission.find_by_id(comment.submission_id)
+        redirect_to @s
     end
 
     private

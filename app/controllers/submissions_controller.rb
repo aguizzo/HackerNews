@@ -3,13 +3,13 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions or /submissions.json
   def index
-    @submissions = Submission.all
-  #  @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
+  #  @submissions = Submission.all
+    @submissions = Submission.all.sort_by{|s| s.upvotes}.reverse
   end
 
   def ask
-    @submissions = Submission.all
-  #  @submissions = Submission.all.sort_by{|s| s.upVotes}.reverse
+  #  @submissions = Submission.all
+    @submissions = Submission.all.sort_by{|s| s.upvotes}.reverse
   end
 
   def newest
