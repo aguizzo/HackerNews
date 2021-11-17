@@ -51,14 +51,23 @@ class SubmissionsController < ApplicationController
     
     @submission = Submission.new(submission_params)
     @submission.user = current_user
-    
-    #pendent d'acabar
+
     @submission2 = Submission.where(url: submission_params[:url])
     if @submission2.exists?
       redirect_to submission_path(@submission2.first)
     else
+      if !submission_params[:url].blank? && !submission_params[:text].blank?
+        @submission.text = ""
+        @comment = Comment.new
+        @comment.content = submission_params[:text]
+        @comment.user_id = @submission.user_id
+       end
       respond_to do |format|
         if @submission.save
+          if !submission_params[:url].blank? && !submission_params[:text].blank?
+            @comment.submission_id = @submission.id
+            @comment.save
+          end
           format.html { redirect_to @submission, notice: "Submission was successfully created." }
           format.json { render :show, status: :created, location: @submission }
         else
