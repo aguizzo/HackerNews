@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+
+<background color=#088A4B>
+
+<p >
   <strong>Username:</strong>
   <%= @user.username %>
 </p>
@@ -13,28 +16,35 @@
 
 <% if current_user && current_user.id == @user.id %>
 
-<p>
-<strong>Email:</strong>
-<%= @user.email %>
-</p>
+  <p>
+  <strong>Email:</strong>
+  <font color=#088A4B> <%= @user.email %> </font>
+  </p>
 
-<tr><td valign="top"><strong>about:</td><td style="overflow:hidden;">
-<p>
-<%= form_for(@user) do |formu| %>
-  
-
-  <div class="field">
+  <tr><td valign="top"><strong>about:</td><td style="overflow:hidden;">
+  <p>
+  <%= form_for(@user) do |formu| %>
     
-    <%= formu.text_area :about %>
-  </div>
-  
-  <div class="actions">
-    <%= formu.submit %>
-  </div>
-<% end %>
 
-</textarea> <font size="-2"><a href="formatdoc" tabindex="-1"><font color="#afafaf"></font></a></font> </td></tr>
-</p>
+    <div class="field">
+      
+      <%= formu.text_area :about %>
+    </div>
+    
+    <div class="actions">
+      <%= formu.submit %>
+    </div>
+  <% end %>
+
+  </textarea> 
+  
+  <font size="-2">
+    <a href="formatdoc" tabindex="-1">
+      <font color="#afafaf"></font>
+    </a>
+  </font> 
+  </td></tr>
+  </p>
 
 
 
@@ -45,6 +55,8 @@
 </p>
 
 <% end %>
+
+<background>
 
 <%= link_to 'submissions', user_submissions_path(:user => @user.id) %>
 <%= link_to 'asks', user_asks_path(:user => @user.id) %>
