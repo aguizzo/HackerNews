@@ -53,7 +53,7 @@ class SubmissionsController < ApplicationController
     @submission.user = current_user
 
     @submission2 = Submission.where(url: submission_params[:url])
-    if @submission2.exists?
+    if @submission2.exists? && !@submission2.first[:url].blank?
       redirect_to submission_path(@submission2.first)
     else
       if !submission_params[:url].blank? && !submission_params[:text].blank?
@@ -87,8 +87,7 @@ class SubmissionsController < ApplicationController
     else
       current_user.upvote(submission)
     end
-  
-    redirect_to root_path
+    redirect_back(fallback_location: root_path)
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
