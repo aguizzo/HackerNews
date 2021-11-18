@@ -7,23 +7,23 @@
         <% submission.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
-      </ul>
+      </ul> 
     </div>
   <% end %>
 
   <div class="field">
     <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, placeholder: "Título" %>
   </div>
 
   <div class="field">
     <%= form.label :url %>
-    <%= form.text_field :url %>
+    <%= form.text_field :url,  placeholder: "Url" %>
   </div>
 
   <div class="field">
     <%= form.label :text %>
-    <%= form.text_area :text %>
+    <%= form.text_area :text,  placeholder: "Texto" %>
   </div>
 
   <div class="actions">

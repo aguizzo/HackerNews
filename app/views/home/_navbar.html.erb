@@ -6,10 +6,10 @@
   <li><%= link_to 'submit', submit_path%></li>
   <% if logged_in? %>
     <li style="float:right"> <%= link_to "Sign out", signout_path, id: "sign_out" %></li>
-  <li style="float:right"><%= link_to current_user.username, "/users/#{current_user.id}" %> </li> 
+    <li style="float:right"><%= link_to current_user.username, "/users/#{current_user.id}" %> </li> 
   <% else %>
   
-  <li style="float:right"><%= button_to "Login", '/auth/google_oauth2'%> </li>
+  <li class=boton style="float:right"><%= button_to "Login", '/auth/google_oauth2'%> </li>
   <%end%>
   
 </ul>
