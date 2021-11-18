@@ -1,9 +1,13 @@
 <article>
     <p> <%= comment.content %> </p>
-    <% if logged_in? %>
-        <span class="upvotec-comment">
+    <% if logged_in? %> 
+        <% if !current_user.upvotecd?(comment)%>
+            <span class="upvotec-comment">
             <%= link_to "Upvote (#{comment.upvotecs})", upvotec_comment_path(comment), method: :post %>
+            <%else%>
+                <%= link_to "Downvote (#{comment.upvotecs})", upvotec_comment_path(comment), method: :post %>
         </span>
+        <% end %>
     <% end %>
     <small> by <%= comment.user.username %> </small>
     <% if logged_in? %>

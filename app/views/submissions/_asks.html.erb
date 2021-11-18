@@ -12,8 +12,11 @@
                 <td><%= i %>.</td>
                 <td>
                 <% if logged_in? %>
-                  <span class="upvote-submission">
+                  <% if !current_user.upvoted?(submission)%>
                     <%=link_to image_tag('/assets/arrowgray.png'), upvote_submission_path(submission), method: :post %>
+                  <% else%>
+                    <%=link_to image_tag('/assets/invarrowgray.png'), upvote_submission_path(submission), method: :post %>
+                  <% end %>
                 <% end %>
                 </td>
                 <td>
