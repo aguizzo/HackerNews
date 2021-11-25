@@ -8,3 +8,4 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
   Rails.application.config.hosts << "product.com"
   Rails.application.config.hosts << "hidden-earth-40420.herokuapp.com"
+  Rails.applicationconfig.hosts << "hidden-sierra-05242.herokuapp.com"
