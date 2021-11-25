@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_222326) do
+ActiveRecord::Schema.define(version: 2021_11_25_095332) do
 
   create_table "comments", force: :cascade do |t|
     t.text "content", null: false
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2021_11_17_222326) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "about"
+    t.string "token"
   end
 
   create_table "votecs", force: :cascade do |t|
