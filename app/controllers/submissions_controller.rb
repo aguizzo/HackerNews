@@ -18,7 +18,10 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1 or /submissions/1.json
   def show
-    
+    respond_to do |format|
+      format.html {render :show}
+      format.json {render json: @submission}
+    end
   end
 
   # GET /submissions/new
@@ -44,6 +47,7 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1/edit
   def edit
+    
   end
 
   # POST /submissions or /submissions.json

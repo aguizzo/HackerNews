@@ -1,0 +1,12 @@
+openapi: '3.0.2'
+info:
+  title: Hacker News
+  version: '1.0'
+servers:
+  - url: https://hidden-earth-40420.herokuapp.com/
+paths:
+  /news:
+    get:
+      responses:
+        '200':
+          description: OK
