@@ -49,6 +49,46 @@ components:
           description: nombre de vots
           example: 2
 
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: "Nom de l'usuari"
+          example: "Adria"
+        email:
+          type: string
+          description: "Email de l'usuari"
+          example: "adria.garcia.fernandez@estudiantat.upc.edu"
+        password_digest:
+          type: string
+          description: "Contrassenya encriptada"
+          example: "$2a$12$Uqdgpfe3aAWNUS.koeHJkuml75Mgd8.xWAj5CTodctOZ8EF1cVKG6"
+        uid:
+          type: string
+          description: "ID generada automàtica"
+          example: "101001275528432852910"
+        provider:
+          type: string
+          description: "Proveïdor del login"
+          example: "google_oauth2"
+        created_at:
+          type: string
+          description: "Data de creació de l'usuari"
+          example: "2021-11-17T22:35:11.636Z"
+        updated_at:
+          type: string
+          description: "Data d'última modificació de l'usuari"
+          example: "2021-11-17T22:35:11.636Z"
+        about:
+          type: string
+          description: "Biografia de l'usuari"
+          example: "Hello"
+        token:
+          type: string
+          description: "Token de seguretat generat per Google"
+          example:
+
 paths:
 
   /ask:
@@ -63,8 +103,6 @@ paths:
                 type: array
                 items:
                     $ref: '#/components/schemas/Submission'
-
-
 
   /submissions/{submission_id}:
     get:
@@ -88,14 +126,51 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Submission'
-  /users.json:
-    get:
-      description: descripcion
-      responses:
-        '200':
-          description: OK
+  
   /submissions.json:
     get:
       responses:
         '200':
           description: OK
+
+  /users/{user_id}:
+    get:
+      tags:
+        - users
+      summary: troba un usuari per id
+      description: retorna un usuari
+      operationId: getUserbyId
+      parameters:
+      - name: user_id
+        in: path
+        description: ID of User to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  
+  /users:
+    get:
+      tags:
+        - users
+      summary: troba tots els usuaris
+      description: retorna un usuari
+      operationId: getUsers
+      responses:
+        '200':
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
