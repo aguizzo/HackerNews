@@ -5,8 +5,80 @@ info:
   description: hola
 servers:
   - url: https://hidden-earth-40420.herokuapp.com/
+
+components:
+  schemas:
+    Submission:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: identificador d'una submission
+          example: 2
+        title:
+          type: string
+          description: titol d'una submission
+          example: 'Titol'
+        url:
+          type: string
+          description: url d'una submission
+          example: 'https://google.com'
+        text:
+          type: string
+          description: text d'una submission
+          example: 'comentari'
+        user_id:
+          type: integer
+          format: int64
+          description: identificador de l'usuari creador de la submission
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: data de creació 
+          example: 2021-11-26T09:33:27.238Z
+        udpated_at:
+          type: string
+          format: date-time
+          description: data de la darrera modificacio
+          example: 2011-12-26T09:33:27.238Z
+        upVotes:
+          type: integer
+          format: int64
+          description: nombre de vots
+          example: 2
+
 paths:
-  /submissions/1.json:
+  /submissions/{submission_id}:
+    get:
+      tags:
+        - submissions
+      summary: troba una submission per id
+      description: retorna una submission
+      operationId: getSubmissionbyId
+      parameters:
+        - name: submission_id
+          in: path
+          description: Identificador de la publicació.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+          '200':
+            description: S'ha retornat la submission especificada.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Submission'
+  /users.json:
+    get:
+      description: descripcion
+      responses:
+        '200':
+          description: OK
+  /submissions.json:
     get:
       responses:
         '200':
