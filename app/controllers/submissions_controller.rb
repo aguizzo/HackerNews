@@ -9,7 +9,11 @@ class SubmissionsController < ApplicationController
 
   def ask
   #  @submissions = Submission.all
-    @submissions = Submission.all.sort_by{|s| s.upvotes}.reverse
+    @submissions = Submission.where(url: "").all.sort_by{|s| s.upvotes}.reverse
+    respond_to do |format|
+      format.html {render :ask}
+      format.json {render json: @submissions}
+    end
   end
 
   def newest
