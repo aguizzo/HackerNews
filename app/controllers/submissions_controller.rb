@@ -64,7 +64,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new(submission_params)
     tmp = User.where("token=?",request.headers[:HTTP_X_API_KEY])[0]
     if tmp
-      @submisssion.user = User.where("token=?",request.headers[:HTTP_X_API_KEY]).first[:id]
+      @submisssion.user = User.where("token=?",request.headers[:HTTP_X_API_KEY]).first
     else 
       @submission.user = current_user
     end
