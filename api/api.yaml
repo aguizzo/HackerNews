@@ -49,6 +49,22 @@ components:
           description: nombre de vots
           example: 2
 
+    SubmissionResult:
+      type: object
+      properties:
+        title:
+          type: string
+          description: titol d'una submission
+          example: 'Titol'
+        url:
+          type: string
+          description: url d'una submission
+          example: 'https://google.com'
+        text:
+          type: string
+          description: text d'una submission
+          example: 'comentari'
+
     User:
       type: object
       properties:
@@ -89,11 +105,72 @@ components:
           description: "Token de seguretat generat per Google"
           example:
 
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X_API_KEY
+      in: header
+
+
 paths:
 
+  /submissions:
+    get:
+      tags:
+        - submissions
+      summary: troba totes les submissions de tipus url
+      description: retorna totes les submissions de tipus url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Submission'
+    post: 
+      tags: 
+        - submissions
+      summary: crea una nova submission
+      requestBody:
+        description: Omple el camp títol i url per fer una submission
+        content:
+          application/json:
+            schema:
+              required:
+              - title
+              - url
+              - text
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: titol
+                url:
+                  type: string
+                  example: 'https://google.com'
+                text: 
+                  type: string
+                  example: comentari
+        required: true
+      responses: 
+        201:
+          description: Submission creada
+          content:
+            applications/json:
+              schema: 
+                $ref: '#/components/schemas/SubmissionResult'
+      security:
+        - ApiKeyAuth: []
+                
+          
   /ask:
     get:
-      description: retorna totes les submission de tipus ask
+      tags:
+        - submissions
+      summary: troba totes les submissions de tipus ask
+      description: retorna totes les submissions de tipus ask
       responses:
         '200':
           description: S'ha retornat la submission especificada.
@@ -126,12 +203,6 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Submission'
-  
-  /submissions.json:
-    get:
-      responses:
-        '200':
-          description: OK
 
   /users/{user_id}:
     get:

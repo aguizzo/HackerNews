@@ -5,7 +5,11 @@ class SubmissionsController < ApplicationController
   def index
   #  @submissions = Submission.all
     @submissions = Submission.all.sort_by{|s| s.upvotes}.reverse
-  end
+    respond_to do |format|
+      format.html {render :index}
+      format.json {render json: @submissions}
+      end
+    end
 
   def ask
   #  @submissions = Submission.all
@@ -58,8 +62,12 @@ class SubmissionsController < ApplicationController
   def create
     
     @submission = Submission.new(submission_params)
-    @submission.user = current_user
-
+    tmp = User.where("token=?",request.headers[:HTTP_X_API_KEY])[0]
+    if tmp
+      @submisssion.user = User.where("token=?",request.headers[:HTTP_X_API_KEY]).first[:id]
+    else 
+      @submission.user = current_user
+    end
     @submission2 = Submission.where(url: submission_params[:url])
     if @submission2.exists? && !@submission2.first[:url].blank?
       redirect_to submission_path(@submission2.first)
