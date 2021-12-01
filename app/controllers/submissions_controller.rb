@@ -32,6 +32,15 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def submissionComments
+    @comments = Comment.where(submission_id: params[:id]).order("created_at DESC")
+    if @comments[0] == nil
+      render :json => {"Error": "Comments not found"}
+    else
+      render json: @comments
+    end
+  end
+
   # GET /submissions/new
   def new
     @submission = Submission.new
