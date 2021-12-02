@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   get '/signout', to: 'sessions#destroy', as: 'signout'
   get '/submissions/:id/comments', to: 'submissions#submissionComments'
   get '/users/:id/comments', to: 'comments#userComments'
-  post '/submissions/:id', to: 'comments#createComment'
+  # post '/comments', to: 'comments#createComment'
+
+  
 
   root 'submissions#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

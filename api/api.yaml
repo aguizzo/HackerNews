@@ -116,11 +116,24 @@ components:
         submission_id:
           type: integer
           description: "ID de la submission"
-          example:
+          example: 1
         content:
           type: string
           description: "text del comentari"
-          example:
+          example: 'example'
+
+    Createcomment:
+      type: object
+      properties:
+        submission_id:
+          type: integer
+          description: "ID de la submission"
+          example: 1
+        content:
+          type: string
+          description: "text del comentari"
+          example: 'example'
+
     ErrorResult:
       type: object
       properties:
@@ -474,3 +487,52 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+
+  /comments:
+   post: 
+      tags: 
+        - comments
+      summary: crea una nou comentari
+      requestBody:
+        description: Parametres del comentari
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Createcomment'
+        required: true
+      responses:   
+        '201':
+          description: comentari creat
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Comment'
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbbiden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+      security:
+        - ApiKeyAuth: []

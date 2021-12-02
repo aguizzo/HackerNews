@@ -1,23 +1,36 @@
 class CommentsController < ApplicationController
-    def create
+    # def create
           
-        @comment = current_user.comments.new(comment_params)
-        if !@comment.save
-          flash[:notice] = @comment.errors.full_messages.to_sentence
+    #     @comment = current_user.comments.new(comment_params)
+    #     if !@comment.save
+    #       flash[:notice] = @comment.errors.full_messages.to_sentence
+    #     end
+    #     redirect_to submission_path(params[:submission_id])
+
+    # end
+
+    def create
+
+      key = request.headers[:HTTP_X_API_KEY]
+      tmp = nil
+      us = nil
+      if key
+        tmp = User.where("token=?", key).first
+        if tmp
+          us = tmp
         end
-        redirect_to submission_path(params[:submission_id])
-
-    end
-
-    def createComment
-      @comment = Comment.new(comment_params)
-      @comment.user_id = @user[0].id
-      @comment.submission_id = params[:id]
-      if @comment.text.empty?
+      else 
+        us = current_user
+      end
+      @comment = us.comments.new(comment_params)
+      if @comment.content.empty?
         render :json => {:error => "The text is empty"}
       else
         @comment.save
-        render json: @comment
+        respond_to do |format|
+          format.html {redirect_to submission_path(params[:submission_id])}
+          format.json {render json: @comment, status: :created}
+        end
       end
     end
 
@@ -60,6 +73,6 @@ class CommentsController < ApplicationController
     private
 
     def comment_params
-        params.require(:comment).permit(:content, :parent_id ).merge(submission_id: params[:submission_id])
+        params.require(:comment).permit(:content, :parent_id, :submission_id ).merge(submission_id: params[:submission_id])
     end
 end
