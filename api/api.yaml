@@ -5,6 +5,7 @@ info:
   description: hola
 servers:
   - url: http://[::1]:3000/
+  - url: https://hidden-earth-40420.herokuapp.com/
 
 components:
   schemas:
