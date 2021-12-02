@@ -108,13 +108,16 @@ class SubmissionsController < ApplicationController
   end
 
   def upvote
-    submission = Submission.find_by(id: params[:id])
+    @submission = Submission.find_by(id: params[:id])
   
-    if current_user.upvoted?(submission)
-      current_user.remove_vote(submission)
+    if current_user.upvoted?(@submission)
+      current_user.remove_vote(@submission)
+      @submission.upVotes = @submission.upVotes - 1
     else
-      current_user.upvote(submission)
+      current_user.upvote(@submission)
+      @submission.upVotes = @submission.upVotes + 1
     end
+    @submission.save
     redirect_back(fallback_location: root_path)
   end
 
