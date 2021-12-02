@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
     # end
 
     def create
-
       key = request.headers[:HTTP_X_API_KEY]
       tmp = nil
       us = nil

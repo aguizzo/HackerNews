@@ -133,6 +133,10 @@ components:
           type: string
           description: "text del comentari"
           example: 'example'
+        parent_id:
+          type: integer
+          description: "ID del comentari pare"
+          example: 1
 
     ErrorResult:
       type: object
