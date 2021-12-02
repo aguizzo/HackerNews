@@ -408,7 +408,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'                  
+                $ref: '#/components/schemas/User'  
+      security:
+          - ApiKeyAuth: []                
   
   /users/{user_id}/comments:
     get:

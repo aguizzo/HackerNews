@@ -58,13 +58,24 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    @us = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        @us = tmp
+      end
+    else 
+      @us = current_user
+    end
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
+      if @us.update(user_params)
+        format.html { redirect_to @us, notice: "User was successfully updated." }
+        format.json { render :show, status: :ok, location: @us }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @us.errors, status: :unprocessable_entity }
       end
     end
   end
