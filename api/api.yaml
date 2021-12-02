@@ -429,7 +429,7 @@ paths:
         - users
       summary: troba un usuari per id i retorna els comentaris
       description: retorna els comentaris d'un usuari
-      operationId: getUserbyId
+      operationId: getUserCommentsbyId
       parameters:
       - name: user_id
         in: path
