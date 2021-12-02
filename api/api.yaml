@@ -49,7 +49,7 @@ components:
           description: nombre de vots
           example: 2
 
-    SubmissionResult:
+    SubmissionPost:
       type: object
       properties:
         title:
@@ -155,33 +155,25 @@ paths:
         content:
           application/json:
             schema:
-              required:
-              - title
-              - url
-              - text
-              type: object
-              properties:
-                title:
-                  type: string
-                  example: titol
-                url:
-                  type: string
-                  example: 'https://google.com'
-                text: 
-                  type: string
-                  example: comentari
+              $ref: '#/components/schemas/SubmissionPost'
         required: true
-      responses: 
-        201:
+      
+      responses:   
+        '200':
+          description: La submission amb aquesta url ja existeix
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Submission'
+        '201':
           description: Submission creada
           content:
-            applications/json:
-              schema: 
-                $ref: '#/components/schemas/SubmissionResult'
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Submission'
+
       security:
         - ApiKeyAuth: []
-                
-          
   /ask:
     get:
       tags:
