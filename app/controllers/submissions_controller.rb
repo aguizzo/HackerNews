@@ -4,7 +4,7 @@ class SubmissionsController < ApplicationController
   # GET /submissions or /submissions.json
   def index
   #  @submissions = Submission.all
-    @submissions = Submission.all.sort_by{|s| s.upvotes}.reverse
+  @submissions = Submission.where.not(url: "").all.sort_by{|s| s.upvotes}.reverse
     respond_to do |format|
       format.html {render :index}
       format.json {render json: @submissions}
