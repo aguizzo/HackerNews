@@ -62,15 +62,23 @@ class SubmissionsController < ApplicationController
   def create
     
     @submission = Submission.new(submission_params)
-    tmp = User.where("token=?",request.headers[:HTTP_X_API_KEY])
-    if tmp
-      @submission.user = User.where("token=?",request.headers[:HTTP_X_API_KEY]).first
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        @submission.user = tmp
+      end
     else 
       @submission.user = current_user
     end
     @submission2 = Submission.where(url: submission_params[:url])
     if @submission2.exists? && !@submission2.first[:url].blank?
-      redirect_to submission_path(@submission2.first)
+      respond_to do |format|
+        format.html {redirect_to submission_path(@submission2.first)}
+        format.json {render json: @submission2.first}
+      end
+      
     else
       if !submission_params[:url].blank? && !submission_params[:text].blank?
         @submission.text = ""
@@ -88,7 +96,11 @@ class SubmissionsController < ApplicationController
           format.json { render :show, status: :created, location: @submission }
         else
           format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @submission.errors, status: :unprocessable_entity }
+          if tmp
+            format.json { render json: @submission.errors, status: :bad_request }
+          else
+            format.json { head :forbidden }
+          end
         end
       end
     end
