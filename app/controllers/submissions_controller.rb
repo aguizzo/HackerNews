@@ -132,16 +132,32 @@ class SubmissionsController < ApplicationController
 
   def upvote
     @submission = Submission.find_by(id: params[:id])
+
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    us = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        us = tmp
+      end
+    else 
+      us = current_user
+    end
   
-    if current_user.upvoted?(@submission)
-      current_user.remove_vote(@submission)
+    if us.upvoted?(@submission)
+      us.remove_vote(@submission)
       @submission.upVotes = @submission.upVotes - 1
     else
-      current_user.upvote(@submission)
+      us.upvote(@submission)
       @submission.upVotes = @submission.upVotes + 1
     end
     @submission.save
-    redirect_back(fallback_location: root_path)
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: @submission }
+      end
+    
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
