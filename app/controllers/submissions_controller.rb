@@ -84,10 +84,20 @@ class SubmissionsController < ApplicationController
     @submission2 = Submission.where(url: submission_params[:url])
     if @submission2.exists? && !@submission2.first[:url].blank?
       respond_to do |format|
-        format.html {redirect_to submission_path(@submission2.first)}
-        format.json {render json: @submission2.first}
+        if key
+          if tmp 
+            format.html {redirect_to submission_path(@submission2.first)}
+            format.json {render json: @submission2.first}
+          else
+            format.json { head :forbidden }
+          end
+        elsif current_user
+          format.html {redirect_to submission_path(@submission2.first)}
+          format.json {render json: @submission2.first}
+        else 
+          format.json { head :forbidden }
+        end
       end
-      
     else
       if !submission_params[:url].blank? && !submission_params[:text].blank?
         @submission.text = ""

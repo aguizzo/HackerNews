@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
         user = User.create_from_omniauth(auth)
         
             session[:user_id] = user.id
-            redirect_to newest_path
+            redirect_to root_path
         
           
     end
