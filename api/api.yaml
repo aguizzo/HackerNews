@@ -526,15 +526,51 @@ paths:
         responses:
           200:
             description: S'ha votat la publicació especificada amb l'usuari autenticat.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Submission'
           404:
-            description: 'Error: Forbbiden'
+            description: 'Error: Not Found'
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/ErrorResult'
                 examples:
                   errorExample:
-                    $ref: '#/components/examples/error403'
-security:
-        - ApiKeyAuth: []
+                    $ref: '#/components/examples/error404'
+        security:
+          - ApiKeyAuth: []
+
+  /comments/{comment_id}/upvotec:
+      post:
+        tags:
+          - comments
+        description: Vota el comentari amb la id passada.
+        parameters:
+          - name: comment_id
+            in: path
+            description: Identificador del comentari.
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          200:
+            description: S'ha votat la publicació especificada amb l'usuari autenticat.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Comment'
+          404:
+            description: 'Error: Not Found'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResult'
+                examples:
+                  errorExample:
+                    $ref: '#/components/examples/error404'
+        security:
+          - ApiKeyAuth: []
     

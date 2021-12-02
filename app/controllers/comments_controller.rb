@@ -33,18 +33,30 @@ class CommentsController < ApplicationController
       end
     end
 
-    def upvotec
-        comment = Comment.find_by(id: params[:id])
-      
-        if current_user.upvotecd?(comment)
-          current_user.remove_votec(comment)
-        else
-          current_user.upvotec(comment)
-        end
-      
-        @s = Submission.find_by_id(comment.submission_id)
-        redirect_to @s
+  def upvotec
+    @comment = Comment.find_by(id: params[:id])
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    us = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        us = tmp
+      end
+    else 
+      us = current_user
     end
+      if us.upvotecd?(@comment)
+        us.remove_votec(@comment)
+      else
+        us.upvotec(@comment)
+      end
+    @s = Submission.find_by_id(@comment.submission_id)
+    respond_to do |format|
+        format.html { redirect_to @s }
+        format.json { render json: @comment }
+      end
+  end
 
     def show
       respond_to do |format|
