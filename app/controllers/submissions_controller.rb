@@ -22,6 +22,10 @@ class SubmissionsController < ApplicationController
 
   def newest
     @submissions = Submission.all.order('created_at DESC')
+    respond_to do |format|
+      format.html {render :newest}
+      format.json {render json: @submissions}
+    end
   end
 
   # GET /submissions/1 or /submissions/1.json
@@ -95,7 +99,7 @@ class SubmissionsController < ApplicationController
           format.html {redirect_to submission_path(@submission2.first)}
           format.json {render json: @submission2.first}
         else 
-          format.json { head :forbidden }
+          format.json { head :unauthorized}
         end
       end
     else

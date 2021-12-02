@@ -120,7 +120,38 @@ components:
           type: string
           description: "text del comentari"
           example:
-   
+    ErrorResult:
+      type: object
+      properties:
+        status:
+          type: integer
+          enum: [400, 401, 403, 404, 409]
+        error: 
+          type: string
+          enum: ["Bad Request", "Unauthorized", "Forbidden", "Not Found", "Conflict"]
+        message: 
+          type: string
+  examples:
+    error400:
+      value:
+        status: 400
+        error: "Bad Request"
+        message: "Algun dels camps és incorrecte"
+    error401:
+      value:
+        status: 401
+        error: "Unauthorized"
+        message: "No s'ha proporcionat cap api key"
+    error403:
+      value:
+        status: 403
+        error: "Forbidden"
+        message: "La teva api key (X-API-KEY Header) es invalida"
+    error404:
+      value:
+        status: 404
+        error: "Not Found"
+        message: "Cap submission amb aquesta ID"
           
   securitySchemes:
     ApiKeyAuth:
@@ -130,13 +161,12 @@ components:
 
 
 paths:
-
   /submissions:
     get:
       tags:
         - submissions
       summary: troba totes les submissions de tipus url
-      description: retorna totes les submissions de tipus url
+      description: retorna totes les submissions de tipus url ordenades per vots
       responses:
         '200':
           description: OK
@@ -157,7 +187,6 @@ paths:
             schema:
               $ref: '#/components/schemas/SubmissionPost'
         required: true
-      
       responses:   
         '200':
           description: La submission amb aquesta url ja existeix
@@ -171,7 +200,33 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Submission'
-
+        '400':
+          description: 'Error: Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        '401':
+          description: 'Error: Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        '403':
+          description: 'Error: Forbbiden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult'
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
       security:
         - ApiKeyAuth: []
   /ask:
@@ -179,7 +234,22 @@ paths:
       tags:
         - submissions
       summary: troba totes les submissions de tipus ask
-      description: retorna totes les submissions de tipus ask
+      description: retorna totes les submissions de tipus ask ordenades per vots
+      responses:
+        '200':
+          description: S'ha retornat la submission especificada.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Submission'
+  /newest:
+    get:
+      tags:
+        - submissions
+      summary: troba totes les submissions
+      description: retorna totes les submissions de tipus ask ordenades per data de publicació
       responses:
         '200':
           description: S'ha retornat la submission especificada.
@@ -212,6 +282,15 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Submission'
+          '404':
+            description: 'Error: Not Found'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResult'
+                examples:
+                  errorExample:
+                    $ref: '#/components/examples/error404'
 
     post:
       tags:
@@ -261,12 +340,21 @@ paths:
           type: integer
           format: int
       responses:
-        200:
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
+        '404':
+            description: 'Error: Not Found'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResult'
+                examples:
+                  errorExample:
+                    $ref: '#/components/examples/error404'
 
   /users/{user_id}:
     get:
@@ -292,6 +380,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+        '404':
+            description: 'Error: Not Found'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResult'
+                examples:
+                  errorExample:
+                    $ref: '#/components/examples/error404'
 
     put:
       tags:
@@ -350,7 +447,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-
+        '404':
+            description: 'Error: Not Found'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResult'
+                examples:
+                  errorExample:
+                    $ref: '#/components/examples/error404'
 
   /users:
     get:
