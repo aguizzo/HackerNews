@@ -53,11 +53,37 @@ class SubmissionsController < ApplicationController
   def usersubmissions
       @user = User.find(params[:user])
       @submissions = Submission.where("user_id=?", params[:user]).order("created_at DESC")
+      respond_to do |format|
+        format.html {  render :usersubmissions}
+        format.json { render json: @submission}
+      end
+  end
+
+  def apiUserSubmissions
+    begin
+      @user = User.find(params[:id])
+      if @user.nil? 
+        render :json => {"Error": "User not found"}
+      else 
+        @submissions = Submission.where("user_id=?", params[:id]).order("created_at DESC")
+        if @submissions[0] == nil
+          render :json => {"Error": "Comments not found"}
+        else
+          render json: @submissions
+        end
+      end
+    rescue ActiveRecord::RecordNotFound
+      render :json => {"Error": "User not found"}, status: :not_found
+    end
   end
 
   def userasks
     @user = User.find(params[:user])
     @submissions = Submission.where("user_id=?", params[:user]).order("created_at DESC")
+    respond_to do |format|
+      format.html {  render :userasks}
+      format.json { render json: @submission}
+    end
   end
  
   def uservoted
@@ -132,7 +158,6 @@ class SubmissionsController < ApplicationController
 
   def upvote
     @submission = Submission.find_by(id: params[:id])
-
     key = request.headers[:HTTP_X_API_KEY]
     tmp = nil
     us = nil
@@ -144,20 +169,44 @@ class SubmissionsController < ApplicationController
     else 
       us = current_user
     end
-  
+
+    if !us.upvoted?(@submission)
+      us.upvote(@submission)
+      @submission.upVotes = @submission.upVotes + 1
+      @submission.save
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path) }
+        format.json { render json: @submission }
+        end
+    else
+      render :json => {"Error": "Submission ja votada"}, status: :bad_request
+    end
+  end
+
+  def downvote
+    @submission = Submission.find_by(id: params[:id])
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    us = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        us = tmp
+      end
+    else 
+      us = current_user
+    end
     if us.upvoted?(@submission)
       us.remove_vote(@submission)
       @submission.upVotes = @submission.upVotes - 1
+      @submission.save
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: root_path) }
+        format.json { render json: @submission }
+        end
     else
-      us.upvote(@submission)
-      @submission.upVotes = @submission.upVotes + 1
+      render :json => {"Error": "No pots desvotar una submission que no has votat"}, status: :bad_request
     end
-    @submission.save
-    respond_to do |format|
-      format.html { redirect_back(fallback_location: root_path) }
-      format.json { render json: @submission }
-      end
-    
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json

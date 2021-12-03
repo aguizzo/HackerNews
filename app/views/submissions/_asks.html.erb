@@ -15,7 +15,7 @@
                   <% if !current_user.upvoted?(submission)%>
                     <%=link_to image_tag('/assets/arrowgray.png'), upvote_submission_path(submission), method: :post %>
                   <% else%>
-                    <%=link_to image_tag('/assets/invarrowgray.png'), upvote_submission_path(submission), method: :post %>
+                    <%=link_to image_tag('/assets/invarrowgray.png'), downvote_submission_path(submission), method: :post %>
                   <% end %>
                 <% end %>
                 </td>

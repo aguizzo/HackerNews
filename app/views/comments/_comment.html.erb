@@ -5,7 +5,7 @@
             <span class="upvotec-comment">
             <%= link_to "Upvote (#{comment.upvotecs})", upvotec_comment_path(comment), method: :post %>
             <%else%>
-                <%= link_to "Downvote (#{comment.upvotecs})", upvotec_comment_path(comment), method: :post %>
+                <%= link_to "Downvote (#{comment.upvotecs})", downvotec_comment_path(comment), method: :post %>
         </span>
         <% end %>
     <% end %>

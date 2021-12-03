@@ -46,16 +46,41 @@ class CommentsController < ApplicationController
     else 
       us = current_user
     end
-      if us.upvotecd?(@comment)
-        us.remove_votec(@comment)
-      else
+      if !us.upvotecd?(@comment)
         us.upvotec(@comment)
+        @s = Submission.find_by_id(@comment.submission_id)
+        respond_to do |format|
+            format.html { redirect_to @s }
+            format.json { render json: @comment }
+          end
+      else
+        render :json => {"Error": "Comment ja votat"}, status: :bad_request
       end
-    @s = Submission.find_by_id(@comment.submission_id)
-    respond_to do |format|
-        format.html { redirect_to @s }
-        format.json { render json: @comment }
+  end
+
+  def downvotec
+    @comment = Comment.find_by(id: params[:id])
+    key = request.headers[:HTTP_X_API_KEY]
+    tmp = nil
+    us = nil
+    if key
+      tmp = User.where("token=?", key).first
+      if tmp
+        us = tmp
       end
+    else 
+      us = current_user
+    end
+    if us.upvotecd?(@comment)
+      us.remove_votec(@comment)
+      @s = Submission.find_by_id(@comment.submission_id)
+      respond_to do |format|
+          format.html { redirect_to @s }
+          format.json { render json: @comment }
+      end
+    else
+      render :json => {"Error": "No pots desvotar un Comment que no has votat"}, status: :bad_request
+    end
   end
 
     def show

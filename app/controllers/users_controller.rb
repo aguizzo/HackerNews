@@ -66,16 +66,32 @@ class UsersController < ApplicationController
       if tmp
         @us = tmp
       end
-    else 
+    elsif current_user
       @us = current_user
+    else 
+      respond_to do |format|
+        format.json { head :unauthorized}
+      end
     end
-    respond_to do |format|
-      if @us.update(user_params)
-        format.html { redirect_to @us, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @us }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @us.errors, status: :unprocessable_entity }
+    if @us
+      if @us == User.find_by(id: params[:id])
+        respond_to do |format|
+          if @us.update(user_params)
+            format.html { redirect_to @us, notice: "User was successfully updated." }
+            format.json { render :show, status: :ok, location: @us }
+          else
+            format.html { render :edit, status: :unprocessable_entity }
+            format.json { render json: @us.errors, status: :unprocessable_entity }
+          end
+        end
+        else 
+          respond_to do |format|
+            format.json { head :forbidden}
+          end
+      end
+    else 
+      respond_to do |format|
+        format.json { head :forbidden}
       end
     end
   end

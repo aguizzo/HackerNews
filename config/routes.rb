@@ -9,11 +9,13 @@ Rails.application.routes.draw do
   resources :submissions, except: :index do
     resources :comments, only: [:create, :edit, :update, :destroy]
     post :upvote, on: :member
+    post :downvote, on: :member
   end
 
   resources :comments, except: :index do
     resources :comments, only: [:create, :edit, :update, :destroy]
     post :upvotec, on: :member
+    post :downvotec, on: :member
   end
 
   resources :users
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   get 'user_voted', to:'submissions#uservoted'
   get '/signout', to: 'sessions#destroy', as: 'signout'
   get '/submissions/:id/comments', to: 'submissions#submissionComments'
+  get '/users/:id/submissions', to: 'submissions#apiUserSubmissions'
   get '/users/:id/comments', to: 'comments#userComments'
   # post '/comments', to: 'comments#createComment'
 

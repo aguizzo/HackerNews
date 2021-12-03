@@ -1,7 +1,7 @@
-openapi: '3.0.2'
+openapi: "3.0.2"
 info:
   title: Hacker News
-  version: '1.0'
+  version: "1.0"
   description: hola
 servers:
   - url: http://[::1]:3000/
@@ -20,15 +20,15 @@ components:
         title:
           type: string
           description: titol d'una submission
-          example: 'Titol'
+          example: "Titol"
         url:
           type: string
           description: url d'una submission
-          example: 'https://google.com'
+          example: "https://google.com"
         text:
           type: string
           description: text d'una submission
-          example: 'comentari'
+          example: "comentari"
         user_id:
           type: integer
           format: int64
@@ -37,7 +37,7 @@ components:
         created_at:
           type: string
           format: date-time
-          description: data de creació 
+          description: data de creació
           example: 2021-11-26T09:33:27.238Z
         udpated_at:
           type: string
@@ -56,15 +56,15 @@ components:
         title:
           type: string
           description: titol d'una submission
-          example: 'Titol'
+          example: "Titol"
         url:
           type: string
           description: url d'una submission
-          example: 'https://google.com'
+          example: "https://google.com"
         text:
           type: string
           description: text d'una submission
-          example: 'comentari'
+          example: "comentari"
 
     User:
       type: object
@@ -101,10 +101,6 @@ components:
           type: string
           description: "Biografia de l'usuari"
           example: "Hello"
-        token:
-          type: string
-          description: "Token de seguretat generat per Google"
-          example:
 
     Comment:
       type: object
@@ -112,7 +108,7 @@ components:
         user_id:
           type: integer
           description: "ID de l'usuari"
-          example: 
+          example:
         submission_id:
           type: integer
           description: "ID de la submission"
@@ -120,7 +116,7 @@ components:
         content:
           type: string
           description: "text del comentari"
-          example: 'example'
+          example: "example"
 
     Createcomment:
       type: object
@@ -132,7 +128,7 @@ components:
         content:
           type: string
           description: "text del comentari"
-          example: 'example'
+          example: "example"
         parent_id:
           type: integer
           description: "ID del comentari pare"
@@ -144,10 +140,17 @@ components:
         status:
           type: integer
           enum: [400, 401, 403, 404, 409]
-        error: 
+        error:
           type: string
-          enum: ["Bad Request", "Unauthorized", "Forbidden", "Not Found", "Conflict"]
-        message: 
+          enum:
+            [
+              "Bad Request",
+              "Unauthorized",
+              "Forbidden",
+              "Not Found",
+              "Conflict",
+            ]
+        message:
           type: string
   examples:
     error400:
@@ -170,13 +173,12 @@ components:
         status: 404
         error: "Not Found"
         message: "Cap submission amb aquesta ID"
-          
+
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       name: X_API_KEY
       in: header
-
 
 paths:
   /submissions:
@@ -186,16 +188,16 @@ paths:
       summary: troba totes les submissions de tipus url
       description: retorna totes les submissions de tipus url ordenades per vots
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Submission'
-    post: 
-      tags: 
+                  $ref: "#/components/schemas/Submission"
+    post:
+      tags:
         - submissions
       summary: crea una nova submission
       requestBody:
@@ -203,48 +205,48 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SubmissionPost'
+              $ref: "#/components/schemas/SubmissionPost"
         required: true
-      responses:   
-        '200':
+      responses:
+        "200":
           description: La submission amb aquesta url ja existeix
           content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Submission'
-        '201':
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "201":
           description: Submission creada
           content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Submission'
-        '400':
-          description: 'Error: Bad Request'
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "400":
+          description: "Error: Bad Request"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error400'
-        '401':
-          description: 'Error: Unauthorized'
+                  $ref: "#/components/examples/error400"
+        "401":
+          description: "Error: Unauthorized"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error401'
-        '403':
-          description: 'Error: Forbbiden'
+                  $ref: "#/components/examples/error401"
+        "403":
+          description: "Error: Forbbiden"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error403'
+                  $ref: "#/components/examples/error403"
       security:
         - ApiKeyAuth: []
   /ask:
@@ -254,14 +256,14 @@ paths:
       summary: troba totes les submissions de tipus ask
       description: retorna totes les submissions de tipus ask ordenades per vots
       responses:
-        '200':
+        "200":
           description: S'ha retornat la submission especificada.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/Submission'
+                  $ref: "#/components/schemas/Submission"
   /newest:
     get:
       tags:
@@ -269,14 +271,14 @@ paths:
       summary: troba totes les submissions
       description: retorna totes les submissions de tipus ask ordenades per data de publicació
       responses:
-        '200':
+        "200":
           description: S'ha retornat la submission especificada.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/Submission'
+                  $ref: "#/components/schemas/Submission"
 
   /submissions/{submission_id}:
     get:
@@ -294,54 +296,52 @@ paths:
             type: integer
             format: int64
       responses:
-          '200':
-            description: S'ha retornat la submission especificada.
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Submission'
-          '404':
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
-
-
+        "200":
+          description: S'ha retornat la submission especificada.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "404":
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
 
   /submissions/{submission_id}/comments:
     get:
       tags:
-      - submissions
+        - submissions
       summary: Retorna tots els comentaris d'una submission.
       description: Retorna tots els comentaris d'una submission.
       parameters:
-      - name: submission_id
-        in: path
-        description: ID de la submission.
-        required: true
-        schema:
-          type: integer
-          format: int
+        - name: submission_id
+          in: path
+          description: ID de la submission.
+          required: true
+          schema:
+            type: integer
+            format: int
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Comment'
-        '404':
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
+                $ref: "#/components/schemas/Comment"
+        "404":
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
 
   /users/{user_id}:
     get:
@@ -351,52 +351,52 @@ paths:
       description: retorna un usuari
       operationId: getUserbyId
       parameters:
-      - name: user_id
-        in: path
-        description: ID of User to return
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: user_id
+          in: path
+          description: ID of User to return
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
-        '200':
+        "200":
           description: OK
-          content: 
+          content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
-        '404':
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
+                  $ref: "#/components/schemas/User"
+        "404":
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
 
     put:
       tags:
-      - users
+        - users
       summary: Edita la informació about de l'usuari loguejat
       description: Edita la informació about de l'usuari loguejat
       parameters:
-      - name: user_id
-        in: path
-        description: ID de l'usuari
-        required: true
-        schema:
-          type: integer
-          format: int
+        - name: user_id
+          in: path
+          description: ID de l'usuari
+          required: true
+          schema:
+            type: integer
+            format: int
       requestBody:
         description: About que volem posar
         content:
           application/json:
             schema:
               required:
-              - about
+                - about
               type: object
               properties:
                 about:
@@ -408,43 +408,77 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'  
+                $ref: "#/components/schemas/User"
       security:
-          - ApiKeyAuth: []                
-  
-  /users/{user_id}/comments:
+        - ApiKeyAuth: []
+
+  /users/{user_id}/submissions:
     get:
       tags:
         - users
-      summary: troba un usuari per id i retorna els comentaris
-      description: retorna els comentaris d'un usuari
-      operationId: getUserCommentsbyId
+      summary: troba un usuari per id i retorna les seves submissions
+      description: retorna les submissions tipus url d'un usuari
+      operationId: getUserSubmissionsbyId
       parameters:
-      - name: user_id
-        in: path
-        description: ID of User to return
-        required: true
-        schema:
-          type: integer
-          format: int64
+        - name: user_id
+          in: path
+          description: ID of User to return
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
-        '200':
+        "200":
           description: OK
-          content: 
+          content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
-        '404':
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
+                  $ref: "#/components/schemas/User"
+        "404":
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
+
+  /users/{user_id}/comments:
+    get:
+      tags:
+        - users
+      summary: troba un usuari per id i retorna els seus comentaris
+      description: retorna els comentaris d'un usuari
+      operationId: getUserCommentsbyId
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of User to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "404":
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
 
   /users:
     get:
@@ -454,125 +488,227 @@ paths:
       description: retorna un usuari
       operationId: getUsers
       responses:
-        '200':
+        "200":
           description: OK
-          content: 
+          content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: "#/components/schemas/User"
 
   /comments:
-   post: 
-      tags: 
+    post:
+      tags:
         - comments
       summary: crea una nou comentari
       requestBody:
-        description: Parametres del comentari
+        description: Si s'omple el camp parent_id, el comentari es farà sobre el coemntari amb la mateixa id. Si és null, aleshores es fa un comentari sobre la submission.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Createcomment'
+              $ref: "#/components/schemas/Createcomment"
         required: true
-      responses:   
-        '201':
+      responses:
+        "201":
           description: comentari creat
           content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Comment'
-        '400':
-          description: 'Error: Bad Request'
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          description: "Error: Bad Request"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error400'
-        '401':
-          description: 'Error: Unauthorized'
+                  $ref: "#/components/examples/error400"
+        "401":
+          description: "Error: Unauthorized"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error401'
-        '403':
-          description: 'Error: Forbbiden'
+                  $ref: "#/components/examples/error401"
+        "403":
+          description: "Error: Forbbiden"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResult'
+                $ref: "#/components/schemas/ErrorResult"
               examples:
                 errorExample:
-                  $ref: '#/components/examples/error403'
+                  $ref: "#/components/examples/error403"
       security:
         - ApiKeyAuth: []
 
   /submissions/{submission_id}/upvote:
-      post:
-        tags:
-          - submissions
-        description: Vota la publicació amb id passada.
-        parameters:
-          - name: submission_id
-            in: path
-            description: Identificador de la publicació.
-            required: true
-            schema:
-              type: integer
-              format: int64
-        responses:
-          200:
-            description: S'ha votat la publicació especificada amb l'usuari autenticat.
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Submission'
-          404:
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
-        security:
-          - ApiKeyAuth: []
+    post:
+      tags:
+        - submissions
+      summary: Vota una submission
+      description: Vota la publicació amb la id passada.
+      parameters:
+        - name: submission_id
+          in: path
+          description: Identificador de la publicació.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: S'ha votat la publicació especificada amb l'usuari autenticat.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error400"
+        404:
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
+      security:
+        - ApiKeyAuth: []
+
+  /submissions/{submission_id}/downvote:
+    post:
+      tags:
+        - submissions
+      summary: Desvota una submission
+      description: Desvota la publicació amb la id passada.
+      parameters:
+        - name: submission_id
+          in: path
+          description: Identificador de la publicació.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: S'ha desvotat la publicació especificada amb l'usuari autenticat.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error400"
+        404:
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
+      security:
+        - ApiKeyAuth: []
 
   /comments/{comment_id}/upvotec:
-      post:
-        tags:
-          - comments
-        description: Vota el comentari amb la id passada.
-        parameters:
-          - name: comment_id
-            in: path
-            description: Identificador del comentari.
-            required: true
-            schema:
-              type: integer
-              format: int64
-        responses:
-          200:
-            description: S'ha votat la publicació especificada amb l'usuari autenticat.
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Comment'
-          404:
-            description: 'Error: Not Found'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResult'
-                examples:
-                  errorExample:
-                    $ref: '#/components/examples/error404'
-        security:
-          - ApiKeyAuth: []
-    
+    post:
+      tags:
+        - comments
+      summary: Vota un comentari
+      description: Vota el comentari amb la id passada.
+      parameters:
+        - name: comment_id
+          in: path
+          description: Identificador del comentari.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: S'ha votat la publicació especificada amb l'usuari autenticat.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error400"
+        404:
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
+      security:
+        - ApiKeyAuth: []
+  /comments/{comment_id}/downvotec:
+    post:
+      tags:
+        - comments
+      summary: Desvota un comentari
+      description: Desvota el comentari amb la id passada.
+      parameters:
+        - name: comment_id
+          in: path
+          description: Identificador del comentari.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: S'ha desvotat el comentari especificat amb l'usuari autenticat.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        400:
+          description: "Error: Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error400"
+        404:
+          description: "Error: Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResult"
+              examples:
+                errorExample:
+                  $ref: "#/components/examples/error404"
+      security:
+        - ApiKeyAuth: []
